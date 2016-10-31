@@ -1,0 +1,7 @@
+
+Dockerfile
+target
+.settings
+.svn
+.project
+.classpath
