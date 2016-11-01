@@ -173,7 +173,8 @@ private static void prettyPrint(Iterator<Video> iteratorSearchResults, String qu
 
            Thumbnail thumbnail = singleVideo.getSnippet().getThumbnails().getDefault();
 
-           System.out.println(" Video Id" + singleVideo.getId());
+           System.out.println(" Video Id " + singleVideo.getId());
+           System.out.println(" Video URL " + "https://www.youtube.com/watch?v="+singleVideo.getId());
            System.out.println(" Title: " + singleVideo.getSnippet().getTitle());
            System.out.println(singleVideo.toPrettyString());
            System.out.println(" Thumbnail: " + thumbnail.getUrl());
