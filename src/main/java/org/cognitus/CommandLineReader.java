@@ -19,8 +19,13 @@ public class CommandLineReader {
 private String searchQuery="";
 
 private String apiKey="";
+private String downloadFlag="";
 private String pathToApiKeyFile="";
 private String OPsystem;
+private String license="any";
+
+private long numberOfResults=1;
+
 
 
 public CommandLineReader() {
@@ -64,7 +69,23 @@ private String readPropertiesFile(String path)  {
 		prop.load(input);
 
 		// get the property value and print it out
-		apiKey=prop.getProperty("apiKey");
+		if (prop.getProperty("apiKey") != null) {
+			apiKey=prop.getProperty("apiKey");
+		}
+				
+		if (prop.getProperty("download") != null) {
+			downloadFlag=prop.getProperty("download");
+			}
+		
+		
+		if (prop.getProperty("results") != null) {
+			numberOfResults=new Long(prop.getProperty("results")).longValue();
+		}
+		
+		if (prop.getProperty("license") != null) {
+			license=prop.getProperty("license");
+		}
+		
 		
 
 	} catch (IOException ex) {
@@ -85,6 +106,14 @@ private String readPropertiesFile(String path)  {
 }
 
 
+
+public String getDownloadFlag() {
+	return downloadFlag;
+}
+
+public void setDownloadFlag(String downloadFlag) {
+	this.downloadFlag = downloadFlag;
+}
 
 public String getSearchQuery() {
 	return searchQuery;
@@ -110,5 +139,20 @@ public void setPathToApiKeyFile(String pathToApiKeyFile) {
 	this.pathToApiKeyFile = pathToApiKeyFile;
 }
 
+public long getNumberOfResults() {
+	return numberOfResults;
+}
+
+public void setNumberOfResults(long numberOfResults) {
+	this.numberOfResults = numberOfResults;
+}
+
+public String getLicense() {
+	return license;
+}
+
+public void setLicense(String license) {
+	this.license = license;
+}
 
 }

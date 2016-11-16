@@ -28,6 +28,10 @@ public class YoutubeApiInterface {
 	
 private String searchQuery="";
 private String apiKey="";
+private static String downloadFlag="";
+private static String license="any";
+private static DownloadManager myDownload=new DownloadManager();
+ 
 
 /**
  * Define a global variable that identifies the name of a file that
@@ -35,7 +39,7 @@ private String apiKey="";
  */
 private static final String PROPERTIES_FILENAME = "youtube.properties";
 
-private static final long NUMBER_OF_VIDEOS_RETURNED = 25; // 25;
+private static long NUMBER_OF_VIDEOS_RETURNED = 1; // 25;
 
 /**
  * Define a global instance of a Youtube object, which will be used
@@ -48,10 +52,11 @@ private static YouTube youtube;
 *
 * 
 */
-public YoutubeApiInterface(String myAPiKey) {
+public YoutubeApiInterface(String myAPiKey,long results,String download,String licensee) {
 	this.apiKey=myAPiKey;
-	
-	
+	NUMBER_OF_VIDEOS_RETURNED=results;
+	downloadFlag=download;
+	license=licensee;
 	// This object is used to make YouTube Data API requests. The last
     // argument is required, but since we don't need anything
     // initialized when the HttpRequest is initialized, we override
@@ -71,8 +76,8 @@ public YoutubeApiInterface(String myAPiKey) {
 public void startSearch(String queryTerm){
 	
     try {
-
-       
+    	
+    	
         // Define the API request for retrieving search results.
         YouTube.Search.List search = youtube.search().list("id,snippet");
 
@@ -83,10 +88,15 @@ public void startSearch(String queryTerm){
         search.setKey(apiKey);
         search.setQ(queryTerm);
 
+        // Restrict the search results to a given license defined in the config file :
+        search.setVideoLicense(license);        // any or  youtube
+        
         // Restrict the search results to only include videos. See:
         // https://developers.google.com/youtube/v3/docs/search/list#type
         search.setType("video");
 
+           
+        
         // To increase efficiency, only retrieve the fields that the
         // application uses.
         search.setFields("items(id/videoId)");
@@ -131,6 +141,8 @@ public void startSearch(String queryTerm){
 
             if (videoList != null) {
                 prettyPrint(videoList.iterator(), queryTerm);
+             
+                
             }
         }
     } catch (GoogleJsonResponseException e) {
@@ -166,20 +178,36 @@ private static void prettyPrint(Iterator<Video> iteratorSearchResults, String qu
    if (!iteratorSearchResults.hasNext()) {
        System.out.println(" There aren't any results for your query.");
    }
-
+ long conta=1;
    while (iteratorSearchResults.hasNext()) {
 
        Video singleVideo = iteratorSearchResults.next();
 
            Thumbnail thumbnail = singleVideo.getSnippet().getThumbnails().getDefault();
-
-           System.out.println(" Video Id " + singleVideo.getId());
+          
+           System.out.println(" Video ("+conta+") Id " + singleVideo.getId());
            System.out.println(" Video URL " + "https://www.youtube.com/watch?v="+singleVideo.getId());
            System.out.println(" Title: " + singleVideo.getSnippet().getTitle());
            System.out.println(singleVideo.toPrettyString());
            System.out.println(" Thumbnail: " + thumbnail.getUrl());
+           System.out.println(" Licence status = "+singleVideo.getStatus().getLicense());
+           
+           String url="https://www.youtube.com/watch?v="+singleVideo.getId();
+                   
+           if (downloadFlag.contains("yes") ) {
+        	   System.out.println(" Download of content: "+url);
+                
+        	   myDownload.start(url);
+        	   
+        	   
+           } else {
+        	   System.out.println(" No download active for : " + url);
+        	   
+           }
+        	   
+           
            System.out.println("\n-------------------------------------------------------------\n");
-
+           conta++;
    }
 }
 

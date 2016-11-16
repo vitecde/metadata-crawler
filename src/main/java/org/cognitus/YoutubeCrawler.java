@@ -14,32 +14,6 @@ package org.cognitus;
  * the License.
  */
 
-import com.google.api.client.googleapis.json.GoogleJsonResponseException;
-import com.google.api.client.http.HttpRequest;
-import com.google.api.client.http.HttpRequestInitializer;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.client.util.Joiner;
-//import com.google.api.services.samples.youtube.cmdline.Auth;
-import com.google.api.services.youtube.YouTube;
-import com.google.api.services.youtube.model.ResourceId;
-import com.google.api.services.youtube.model.SearchListResponse;
-import com.google.api.services.youtube.model.SearchResult;
-import com.google.api.services.youtube.model.Thumbnail;
-import com.google.api.services.youtube.model.Video;
-import com.google.api.services.youtube.model.VideoListResponse;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Properties;
-
 /**
  * Print a list of videos matching a search term.
  *
@@ -47,19 +21,7 @@ import java.util.Properties;
  */
 public class YoutubeCrawler {
 
-    /**
-     * Define a global variable that identifies the name of a file that
-     * contains the developer's API key.
-     */
-    private static final String PROPERTIES_FILENAME = "youtube.properties";
-
-    private static final long NUMBER_OF_VIDEOS_RETURNED = 25; // 25;
-
-    /**
-     * Define a global instance of a Youtube object, which will be used
-     * to make YouTube Data API requests.
-     */
-    private static YouTube youtube;
+  
 
    public static void main(String[] args) {
     	
@@ -72,15 +34,22 @@ public class YoutubeCrawler {
     		
     		String searchKey=commmands.getSearchQuery();
     		String apiKey=commmands.getApiKey();
+    		String download=commmands.getDownloadFlag();
+    		String license= commmands.getLicense();
+    		Long results=commmands.getNumberOfResults();
     		
 	   		System.out.println("Api key used = "+apiKey);
 	   		System.out.println("search Key = "+searchKey);
-	   		
+	   		System.out.println("download active = "+download);
+	   		System.out.println("Number of results to show = "+results);
+	   		System.out.println("License filter = "+license);
 	   		
 	   		//** Lets make the first search 
-	   		YoutubeApiInterface myAPI = new YoutubeApiInterface(apiKey);
+	   		YoutubeApiInterface myAPI = new YoutubeApiInterface(apiKey,results,download,license);
 	   		
 	   		myAPI.startSearch(searchKey);
+	   		
+	       
 	   		
     		
     	} else {
