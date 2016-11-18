@@ -79,7 +79,19 @@ private String readPropertiesFile(String path)  {
 		
 		
 		if (prop.getProperty("results") != null) {
-			numberOfResults=new Long(prop.getProperty("results")).longValue();
+			
+			long number =1;
+			try {
+				number=new Long(prop.getProperty("results")).longValue();	
+			} catch (NumberFormatException nfe) {
+				System.out.println("ERROR \""+prop.getProperty("results")+"\"  must be a number!!!!");
+	            }
+			
+			
+			
+			System.out.println("number = "+number);
+			
+			numberOfResults=number;
 		}
 		
 		if (prop.getProperty("license") != null) {
