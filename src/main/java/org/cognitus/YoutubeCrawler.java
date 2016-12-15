@@ -17,7 +17,7 @@ package org.cognitus;
 /**
  * Print a list of videos matching a search term.
  *
- * @author Jeremy Walker
+ * @author Marco Chavarria
  */
 public class YoutubeCrawler {
 
@@ -25,19 +25,20 @@ public class YoutubeCrawler {
 
    public static void main(String[] args) {
     	
-    	System.out.println("We start with the app ");
+    	
     	
     	CommandLineReader commmands = new CommandLineReader();
-    	
     	int result=commmands.setInputArguments(args);
-    	if(result==2) {
+    	String apiKey=commmands.getApiKey();
+    	
+    	if(result==2) { // OFFline version to make development !!!
     		
     		String searchKey=commmands.getSearchQuery();
-    		String apiKey=commmands.getApiKey();
+    		
     		String download=commmands.getDownloadFlag();
     		String license= commmands.getLicense();
     		Long results=commmands.getNumberOfResults();
-    		
+    		System.out.println("We start with the app OFFLINE ");
 	   		System.out.println("Api key used = "+apiKey);
 	   		System.out.println("search Key = "+searchKey);
 	   		System.out.println("download active = "+download);
@@ -46,14 +47,41 @@ public class YoutubeCrawler {
 	   		
 	   		//** Lets make the first search 
 	   		YoutubeApiInterface myAPI = new YoutubeApiInterface(apiKey,results,download,license);
-	   		
 	   		myAPI.startSearch(searchKey);
 	   		
-	       
+	   		
 	   		
     		
     	} else {
-    		System.out.println("Invalid input parameters. Count: "+result);
+    		System.out.println("Online activate! .Start receiving the data from RabbitMQ server !!");
+    		
+    		// Get the parameters of the Rabbit Worker 
+    		System.out.println("We start with the app ONLINE ");
+	   		String server = commmands.getDatabaseServer();
+	   		String name = commmands.getDatabaseName();
+	   		String user = commmands.getDataBaseUser();
+	   		String password = commmands.getDataBasePassword();
+	   		long port = commmands.getPort();
+	   		
+	   		System.out.println("Queue server  = "+server);
+	   		System.out.println("Queue name of queue  = "+name);
+	   		System.out.println("Queue user  = "+user);
+	   		System.out.println("Queue password = "+password);
+	   		System.out.println("Queue port = "+port);
+	   		
+	
+	   		
+	   		RabbitWorker myWorker = new RabbitWorker();
+	   		myWorker.setRabbitServer(server);
+	   		myWorker.setQueueName(name);
+	   		myWorker.setRabbitPassword(password);
+	   		myWorker.setPort((int) port);
+	   		
+	   		myWorker.setApiKey(apiKey);
+	   		
+	   		myWorker.startWorker();
+    		
+    		
     	}
     	 
     		

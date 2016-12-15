@@ -27,6 +27,15 @@ private String license="any";
 private long numberOfResults=1;
 
 
+// Database parameters 
+
+private String databaseServer="";
+private String databaseName="postgres";
+private String dataBaseUser="postgres";
+private String dataBasePassword="";
+private long port=5432;
+
+
 
 public CommandLineReader() {
 
@@ -86,16 +95,39 @@ private String readPropertiesFile(String path)  {
 			} catch (NumberFormatException nfe) {
 				System.out.println("ERROR \""+prop.getProperty("results")+"\"  must be a number!!!!");
 	            }
-			
-			
-			
-			System.out.println("number = "+number);
-			
+					
 			numberOfResults=number;
 		}
 		
 		if (prop.getProperty("license") != null) {
 			license=prop.getProperty("license");
+		}
+		
+		if (prop.getProperty("server") != null) {
+			databaseServer=prop.getProperty("server");
+		}
+		if (prop.getProperty("port") != null) {
+		
+			long number =port;
+			try {
+				number=new Long(prop.getProperty("port")).longValue();	
+			} catch (NumberFormatException nfe) {
+				System.out.println("ERROR \""+prop.getProperty("port")+"\"  must be a number!!!!");
+	            }
+					
+			port=number;
+		}
+		
+		if (prop.getProperty("queuename") != null) {
+			databaseName=prop.getProperty("queuename");
+		}
+		
+		if (prop.getProperty("user") != null) {
+			dataBaseUser=prop.getProperty("user");
+		}
+		
+		if (prop.getProperty("password") != null) {
+			dataBasePassword=prop.getProperty("password");
 		}
 		
 		
@@ -166,5 +198,46 @@ public String getLicense() {
 public void setLicense(String license) {
 	this.license = license;
 }
+
+public String getDatabaseServer() {
+	return databaseServer;
+}
+
+public void setDatabaseServer(String databaseServer) {
+	this.databaseServer = databaseServer;
+}
+
+public String getDatabaseName() {
+	return databaseName;
+}
+
+public void setDatabaseName(String databaseName) {
+	this.databaseName = databaseName;
+}
+
+public String getDataBaseUser() {
+	return dataBaseUser;
+}
+
+public void setDataBaseUser(String dataBaseUser) {
+	this.dataBaseUser = dataBaseUser;
+}
+
+public String getDataBasePassword() {
+	return dataBasePassword;
+}
+
+public void setDataBasePassword(String dataBasePassword) {
+	this.dataBasePassword = dataBasePassword;
+}
+
+public long getPort() {
+	return port;
+}
+
+public void setPort(long port) {
+	this.port = port;
+}
+
 
 }

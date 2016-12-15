@@ -132,7 +132,8 @@ public void startSearch(String queryTerm){
             + "statistics, "
             + "status, "
 //            + "suggestions, " //only for owner
-            + "topicDetails "
+            + "topicDetails, "
+            + "topicDetails"
             ).setId(videoId);
             listVideosRequest.setKey(apiKey); 
             VideoListResponse listResponse = listVideosRequest.execute();
@@ -156,10 +157,6 @@ public void startSearch(String queryTerm){
 	
 	
 }
-
-
-
-
 
 /* Prints out all results in the Iterator. For each result, print the
 * title, video ID, and thumbnail.
