@@ -175,14 +175,14 @@ private static void prettyPrint(Iterator<Video> iteratorSearchResults, String qu
    if (!iteratorSearchResults.hasNext()) {
        System.out.println(" There aren't any results for your query.");
    }
- long conta=1;
+ long number=1;
    while (iteratorSearchResults.hasNext()) {
 
        Video singleVideo = iteratorSearchResults.next();
 
            Thumbnail thumbnail = singleVideo.getSnippet().getThumbnails().getDefault();
           
-           System.out.println(" Video ("+conta+") Id " + singleVideo.getId());
+           System.out.println(" Video ("+number+") Id " + singleVideo.getId());
            System.out.println(" Video URL " + "https://www.youtube.com/watch?v="+singleVideo.getId());
            System.out.println(" Title: " + singleVideo.getSnippet().getTitle());
            System.out.println(singleVideo.toPrettyString());
@@ -191,7 +191,7 @@ private static void prettyPrint(Iterator<Video> iteratorSearchResults, String qu
            
            String url="https://www.youtube.com/watch?v="+singleVideo.getId();
                    
-           if (downloadFlag.contains("yes") ) {
+           if (downloadFlag.ins("yes") ) {
         	   System.out.println(" Download of content: "+url);
                 
         	   myDownload.start(url);
@@ -204,7 +204,7 @@ private static void prettyPrint(Iterator<Video> iteratorSearchResults, String qu
         	   
            
            System.out.println("\n-------------------------------------------------------------\n");
-           conta++;
+           number++;
    }
 }
 

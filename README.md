@@ -25,13 +25,13 @@ docker run -v /c/Users/myDir:/crawler/videos -e "Q_PASSWORD=user_password"
 											 -e "API_KEY=your_own_api_key" 
 											 -it --rm vitecde/metadata-crawler
 
-The following enviorment variables define:
+The following environment variables define:
 Q_USER -> user of the RabbitMQ Queue
 Q_PASSWORD -> password 
 Q_NAME -> name of the Quede
-Q_IP -> id adress where the service is running
+Q_IP -> id address where the service is running
 Q_PORT -> port
-API_KEY -> Youtube key to access the API
+API_KEY -> You-tube key to access the API
 											 
 											 
 Example of a docker compose file to use with the vitecde/rabbitmq-service

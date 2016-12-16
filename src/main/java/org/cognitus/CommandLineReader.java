@@ -43,24 +43,24 @@ public CommandLineReader() {
 }
 
 public int setInputArguments(String[] arguments) {
-	int conta = 0;
+	int number = 0;
 	for (String env : arguments) {
-			if (conta == 0) {
+			if (number == 0) {
 				pathToApiKeyFile=env;
 				readPropertiesFile(pathToApiKeyFile);
 				
 			}
 			
-			if (conta == 1) {
+			if (number == 1) {
 				searchQuery=env;
 			}
 					
-			conta++;
+			number++;
 
 	}
 	
 			
-	return(conta);
+	return(number);
 }
 
 
