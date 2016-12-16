@@ -191,7 +191,7 @@ private static void prettyPrint(Iterator<Video> iteratorSearchResults, String qu
            
            String url="https://www.youtube.com/watch?v="+singleVideo.getId();
                    
-           if (downloadFlag.ins("yes") ) {
+           if (downloadFlag.contains("yes") ) {
         	   System.out.println(" Download of content: "+url);
                 
         	   myDownload.start(url);
