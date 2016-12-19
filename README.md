@@ -34,9 +34,9 @@ Q_PORT -> port
 API_KEY -> You-tube key to access the API
 											 
 											 
-Example of a docker compose file to use with the vitecde/rabbitmq-service
-docker-compose.yml
+Example of a docker compose file to use with the vitecde/rabbitmq-service docker-compose.yml
 
+```
 crawler:
    image: vitecde/metadata-crawler
    volumes:
@@ -57,3 +57,4 @@ rabbitService:
     ports:
     - "5672:5672"
     - "15672:15672"
+```
