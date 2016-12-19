@@ -1,9 +1,10 @@
 # metadata-crawler
 Usage: 
 
+```
 $ docker run -v /c/Users/myDir:/crawler/videos -e "API_KEY=your_own_api_key" --rm vitecde/metadata-crawler 
 results=number_of_results download=download_option license=licence_type "my_search_query"
-
+```
 where:
 
 /c/Users/myDir -> example of a directory which is mounted in the Docker in the internal directory "/crawler/videos". 
@@ -17,6 +18,7 @@ licence_type -> any, creativeCommon, youtube
 
 If you want to run the metadata crawler in order to get the input parameters from a rabbitmq service try:
 
+```
 docker run -v /c/Users/myDir:/crawler/videos -e "Q_PASSWORD=user_password" 
 											 -e "Q_USER=user_name" 
 											 -e "Q_NAME=queue_name" 
@@ -24,6 +26,8 @@ docker run -v /c/Users/myDir:/crawler/videos -e "Q_PASSWORD=user_password"
 											 -e "Q_IP=192.168.99.100"
 											 -e "API_KEY=your_own_api_key" 
 											 -it --rm vitecde/metadata-crawler
+											 
+```
 
 The following environment variables define:
 Q_USER -> user of the RabbitMQ Queue

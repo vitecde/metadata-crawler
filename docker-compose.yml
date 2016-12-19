@@ -1,19 +1,19 @@
 crawler:
-  image: vitecde/metadata-crawler
-  volumes:
-    - ./myDir:/crawler/videos
-  links: 
-   - rabbitService
-  environment:
-    - API_KEY=your_own_api_key
-    - Q_PASSWORD=user_name
-    - Q_USER=user_password
-    - Q_NAME=queue_name
-    - Q_PORT=5672
-    - Q_IP=rabbitService
-  entrypoint: ./start_crawler.sh "SEARCH"
+   image: vitecde/metadata-crawler
+   volumes:
+     - /c/Users/mchavarria.COMO-INTRA/workspace/myDocker:/crawler/videos
+   links: 
+    - rabbitService
+   environment:
+     - API_KEY=AIzaSyB3ezw4-Py8SfEvoOFuDrHrut4KrZrjosc
+     - Q_PASSWORD=guest
+     - Q_USER=guest
+     - Q_NAME=crawlerQueue
+     - Q_PORT=5672
+     - Q_IP=rabbitService
+
 rabbitService:
-   image: vitecde/rabbitmq-service
-   ports:
-   - "5672:5672"
-   - "15672:15672"
+    image: vitecde/rabbitmq-service
+    ports:
+    - "5672:5672"
+    - "15672:15672"
