@@ -12,7 +12,7 @@ Here the downloaded videos will be copied.
 
 number_of_results -> number of results to show ( 1,2,...,n)
 
-download_option -> yes, no 
+download_option -> yes, no      
 
 licence_type -> any, creativeCommon, youtube
 
