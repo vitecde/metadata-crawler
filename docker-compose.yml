@@ -5,7 +5,7 @@ crawler:
    links: 
     - rabbitService
    environment:
-     - API_KEY=AIzaSyB3ezw4-Py8SfEvoOFuDrHrut4KrZrjosc
+     - API_KEY=you_own_API_Key
      - Q_PASSWORD=guest
      - Q_USER=guest
      - Q_NAME=crawlerQueue
