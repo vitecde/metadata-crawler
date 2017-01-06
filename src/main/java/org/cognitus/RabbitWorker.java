@@ -155,8 +155,8 @@ private void launchCrawler () {
 
 	//** Lets make the first search 
 		YoutubeApiInterface myAPI = new YoutubeApiInterface(apiKey,numberOfVideos,downloadFlag,license);
-		myAPI.startSearch(searchQueue);
-		
+		//myAPI.startSearch(searchQueue);
+		myAPI.startSearchPaginated(searchQueue);
 }
 
 

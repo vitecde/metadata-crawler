@@ -47,9 +47,9 @@ public class YoutubeCrawler {
 	   		
 	   		//** Lets make the first search 
 	   		YoutubeApiInterface myAPI = new YoutubeApiInterface(apiKey,results,download,license);
-	   		myAPI.startSearch(searchKey);
+	   		//myAPI.startSearch(searchKey);
 	   		
-	   		
+	   		myAPI.startSearchPaginated(searchKey);
 	   		
     		
     	} else {

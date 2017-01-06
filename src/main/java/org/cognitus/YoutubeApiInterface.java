@@ -18,6 +18,7 @@ import com.google.api.services.youtube.model.Thumbnail;
 import com.google.api.services.youtube.model.Video;
 import com.google.api.services.youtube.model.VideoListResponse;
 
+
 /**
  * Interface to call the functions of the youTube API.
  *
@@ -28,6 +29,8 @@ public class YoutubeApiInterface {
 	
 private String searchQuery="";
 private String apiKey="";
+private String nextPageToken="";
+private static long number=1;
 private static String downloadFlag="";
 private static String license="any";
 private static DownloadManager myDownload=new DownloadManager();
@@ -40,6 +43,8 @@ private static DownloadManager myDownload=new DownloadManager();
 private static final String PROPERTIES_FILENAME = "youtube.properties";
 
 private static long NUMBER_OF_VIDEOS_RETURNED = 1; // 25;
+
+private long numberOfResults=1;
 
 /**
  * Define a global instance of a Youtube object, which will be used
@@ -73,6 +78,55 @@ public YoutubeApiInterface(String myAPiKey,long results,String download,String l
 }
 
 
+public void startSearchPaginated(String queryTerm) {
+	
+
+		
+		System.out.println("PAginated search ");
+		
+		float numberQuieries=((float)NUMBER_OF_VIDEOS_RETURNED/50);
+	
+		System.out.println("with iterations = "+numberQuieries);
+		
+		
+		int ini=0;
+		int conta=0;	
+		int blockSize=50;
+		 
+		 for (int i=0; i<NUMBER_OF_VIDEOS_RETURNED; i++) {
+				if (conta == blockSize || i == (NUMBER_OF_VIDEOS_RETURNED-1)) {
+					int start=ini;
+					 int end;
+						if (i == (NUMBER_OF_VIDEOS_RETURNED-1)) {
+							end=i+1;
+						} else {
+							end=(ini+blockSize);
+						}
+					
+						//System.out.println("-< start =   "+start);
+						//System.out.println("-< end  =   "+end);
+						
+						numberOfResults=end-start;
+						//System.out.println("-< number =   "+numberOfResults);
+		
+						startSearch(queryTerm);
+						
+						ini=i;
+						conta=0;
+				}
+		
+				
+				conta++;
+		 }
+
+
+	nextPageToken="";
+	number=1;
+	
+}
+
+
+
 public void startSearch(String queryTerm){
 	
     try {
@@ -99,13 +153,24 @@ public void startSearch(String queryTerm){
         
         // To increase efficiency, only retrieve the fields that the
         // application uses.
-        search.setFields("items(id/videoId)");
-        search.setMaxResults(NUMBER_OF_VIDEOS_RETURNED);
+        search.setFields("items(id/videoId),nextPageToken");
+        search.setMaxResults(numberOfResults);
+     
+        
+        
+        search.setPageToken(nextPageToken);
+     
      
         // Call the API and print results.
         SearchListResponse searchResponse = search.execute();
+       
+        
+       nextPageToken= searchResponse.getNextPageToken();
+       System.out.println(" --> NExt page Token = "+nextPageToken);
+       
+       
         List<SearchResult> searchResultList = searchResponse.getItems();
-
+  
         List<String> videoIds = new ArrayList<String>();
 
         if (searchResultList != null) {
@@ -114,6 +179,9 @@ public void startSearch(String queryTerm){
             for (SearchResult searchResult : searchResultList) {
                 videoIds.add(searchResult.getId().getVideoId());
             }
+            
+    
+            
             Joiner stringJoiner = Joiner.on(',');
             String videoId = stringJoiner.join(videoIds);
 
@@ -167,15 +235,19 @@ public void startSearch(String queryTerm){
 */
 private static void prettyPrint(Iterator<Video> iteratorSearchResults, String query) throws IOException {
 
-   System.out.println("\n=============================================================");
-   System.out.println(
-           "   First " + NUMBER_OF_VIDEOS_RETURNED + " videos for search on \"" + query + "\".");
-   System.out.println("=============================================================\n");
-
+   if( number == 1 ){
+	   System.out.println("\n=============================================================");
+	   System.out.println(
+	           "   First " + NUMBER_OF_VIDEOS_RETURNED + " videos for search on \"" + query + "\".");
+	   System.out.println("=============================================================\n");
+   }
+   
+   
+   
    if (!iteratorSearchResults.hasNext()) {
        System.out.println(" There aren't any results for your query.");
    }
- long number=1;
+
    while (iteratorSearchResults.hasNext()) {
 
        Video singleVideo = iteratorSearchResults.next();
@@ -188,6 +260,7 @@ private static void prettyPrint(Iterator<Video> iteratorSearchResults, String qu
            System.out.println(singleVideo.toPrettyString());
            System.out.println(" Thumbnail: " + thumbnail.getUrl());
            System.out.println(" Licence status = "+singleVideo.getStatus().getLicense());
+
            
            String url="https://www.youtube.com/watch?v="+singleVideo.getId();
                    
